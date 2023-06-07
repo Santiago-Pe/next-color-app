@@ -1,19 +1,23 @@
 /*---------- Dependecies ----------*/
 import fs from "fs";
+import Link from "next/link";
 
 /*---------- Component ----------*/
-function Home({ colors }) {
+function Home({ palletes }) {
   /*---------- Render ----------*/
   return (
     <ul>
-      {colors.map((color) => (
-        <li key={color.id}>{color.paletteName}</li>
+      {palletes.map((palette) => (
+        <li key={palette.id}>
+          <Link href={`/palette/${palette.id}`}>{palette.paletteName}</Link>
+        </li>
       ))}
     </ul>
   );
 }
 
 /*---------- Server/Client Funciotns Props ----------*/
+
 export async function getServerSideProps() {
   //  Leer los nombres de archivo en la carpetae incluir información adicional y permisos sobre cada archivo
   const colorFiles = await fs.promises.readdir("./colors", {
@@ -35,10 +39,11 @@ export async function getServerSideProps() {
     });
     
   // esperar a que se resuelvan todas las promesas devueltas por las llamadas a readFile y JSON.parse
-  const colors = await Promise.all(promiseReadColors);
+  const palletes = await Promise.all(promiseReadColors);
 
-  console.log(colors);
-  return { props: { colors } };
+  // Imprimir información completa de los colores
+  console.log(JSON.stringify(palletes, null, 2));
+  return { props: { palletes } };
 }
 
 export default Home;
