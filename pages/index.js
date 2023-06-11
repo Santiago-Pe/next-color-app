@@ -1,10 +1,9 @@
-/*---------- Dependecies ----------*/
 import fs from "fs";
 import Link from "next/link";
 
-/*---------- Component ----------*/
+
 function Home({ palletes }) {
-  /*---------- Render ----------*/
+
   return (
     <ul>
       {palletes.map((palette) => (
